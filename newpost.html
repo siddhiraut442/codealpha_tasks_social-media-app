@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>New Post</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 40px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      resize: none;
+    }
+
+    button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #667eea;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #5665d2;
+    }
+
+    .back-link {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+      text-decoration: none;
+      color: #667eea;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📝 Create a New Post</h2>
+    <textarea id="newPostContent" placeholder="What's on your mind?"></textarea>
+    <button onclick="submitPost()">Post</button>
+    <a href="index.html" class="back-link">⬅️ Back to Feed</a>
+  </div>
+
+  <script>
+    const userId = parseInt(localStorage.getItem('userId'));
+
+    function submitPost() {
+      const content = document.getElementById('newPostContent').value.trim();
+      if (!content) return alert("Post content can't be empty.");
+
+      fetch('http://localhost:3000/api/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId, content })
+      })
+        .then(res => res.json())
+        .then(() => {
+          alert("✅ Post created successfully!");
+          window.location.href = "index.html";
+        });
+    }
+  </script>
+</body>
+</html>

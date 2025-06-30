@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Your Profile</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 30px;
+    }
+
+    .profile-card {
+      background: white;
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .profile-card h2 {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .profile-card p {
+      font-size: 16px;
+      color: #555;
+    }
+
+    .back-button {
+      margin-top: 20px;
+      background: #667eea;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .back-button:hover {
+      background: #5567c9;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-card">
+    <h2>👤 Profile Information</h2>
+    <p><strong>Username:</strong> <span id="username">Loading...</span></p>
+    <p><strong>Email:</strong> <span id="email">Loading...</span></p>
+    <p><strong>User ID:</strong> <span id="userId">Loading...</span></p>
+    <button class="back-button" onclick="goBack()">🔙 Back</button>
+  </div>
+
+  <script>
+    const userId = localStorage.getItem('userId');
+    fetch(`http://localhost:3000/api/users/${userId}`)
+      .then(res => res.json())
+      .then(user => {
+        document.getElementById('username').textContent = user.username;
+        document.getElementById('email').textContent = user.email;
+        document.getElementById('userId').textContent = user.id;
+      })
+      .catch(() => {
+        alert('Failed to load profile.');
+      });
+
+    function goBack() {
+      window.location.href = 'index.html'; // or your main/home page
+    }
+  </script>
+</body>
+</html>
